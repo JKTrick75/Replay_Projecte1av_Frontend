@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// import GridProductos from '../components/GridProductos';
+import GridProductos from '../components/GridProductos';
 // import ModalAddProducto from '../components/ModalAddProducto';
 // import ModalEditProducto from '../components/ModalEditProducto';
 
@@ -50,12 +50,10 @@ function Tienda() {
     fetchData();
   }, []); //El [] para ejecutarlo solo 1 vez al principio
 
-  return (
+return (
     <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-4xl font-bold text-[#444444]">Nuestros Productos</h1>
-        
-        {/* Botón "+ Añadir Producto" con tu estilo primario */}
         <button 
           className="bg-[#E96B56] text-white px-5 py-2 rounded-lg font-medium hover:bg-[#ee8b7a] duration-300"
         >
@@ -63,22 +61,15 @@ function Tienda() {
         </button>
       </div>
 
-      {/* Grid de productos */}
       {isLoading ? (
         <div className="text-center py-20">
           <p className="text-xl text-[#666666]">Cargando productos...</p>
         </div>
       ) : (
-        <div className="bg-[#F8F9FA] border border-[#DEDFE0] min-h-96 rounded-lg p-6">
-          <p className="text-gray-500">¡Datos cargados!</p>
-          <p className="text-[#444444]">Has cargado {juegos.length} juegos.</p>
-          <p className="text-[#444444]">Has cargado {marcas.length} marcas.</p>
-          <p className="text-[#444444]">Has cargado {consolas.length} consolas.</p>
-          {/* Aquí irá tu <GridProductos ... /> */}
-        </div>
+        <GridProductos juegos={juegos} />
       )}
 
-      {/* Aquí irán tus modales (que estarán ocultos) */}
+      {/* MODALES (En obras) */}
       {/* <ModalAddProducto ... /> */}
       {/* <ModalEditProducto ... /> */}
     </div>

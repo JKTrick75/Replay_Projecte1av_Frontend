@@ -1,22 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
-// Un pequeño componente para los iconos sociales (puedes reemplazarlos por los de una librería)
-const SocialIcon = ({ href, children }) => (
-  <a 
-    href={href} 
-    className="flex items-center justify-center w-10 h-10 bg-white/10 rounded-full text-white hover:bg-[#E96B56] hover:-translate-y-1 duration-300"
-  >
-    {children}
-  </a>
-);
+import SocialIcon from './SocialIcon';
 
 function Footer() {
   return (
     <footer className="w-full bg-[#444444] text-white py-12 px-5 mt-12">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
         
-        {/* Columna 1: Logo e Info */}
+        {/* Columna 1: Logo/Info */}
         <div>
           <Link to="/" className="flex items-center text-2xl font-bold mb-4">
             <span role="img" aria-label="logo" className="h-10 mr-2.5 text-4xl">🎮</span>
@@ -54,7 +45,6 @@ function Footer() {
         <div>
           <h3 className="text-xl font-bold mb-6">Síguenos</h3>
           <div className="flex gap-4">
-            {/* He usado texto como placeholder para los iconos de FontAwesome (fab fa-...) */}
             <SocialIcon href="#">F</SocialIcon>
             <SocialIcon href="#">T</SocialIcon>
             <SocialIcon href="#">I</SocialIcon>
