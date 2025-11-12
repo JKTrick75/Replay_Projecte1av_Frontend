@@ -11,10 +11,12 @@ function Tienda() {
   const [juegos, setJuegos] = useState([]);
   const [marcas, setMarcas] = useState([]);
   const [consolas, setConsolas] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   //FETCH para recibir los datos del backend
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       try {
         //Lanzamos las 3 peticiones a la vez (más rápido que por separado)
         const [juegosResponse, marcasResponse, consolasResponse] = await Promise.all([
@@ -40,6 +42,8 @@ function Tienda() {
 
       } catch (error) {
         console.error("Error al cargar los datos de la API:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -48,21 +52,31 @@ function Tienda() {
 
   return (
     <div>
-      <h1 className="text-4xl font-bold mb-6">Nuestros Productos</h1>
-      
-      <div className="text-right mb-4">
-        <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-4xl font-bold text-[#444444]">Nuestros Productos</h1>
+        
+        {/* Botón "+ Añadir Producto" con tu estilo primario */}
+        <button 
+          className="bg-[#E96B56] text-white px-5 py-2 rounded-lg font-medium hover:bg-[#ee8b7a] duration-300"
+        >
           + Añadir Producto
         </button>
       </div>
 
       {/* Grid de productos */}
-      <div className="bg-gray-800 min-h-96 rounded-lg p-4">
-        <p className="text-gray-400">¡Datos cargados!</p>
-        <p>Has cargado {juegos.length} juegos.</p>
-        <p>Has cargado {marcas.length} marcas.</p>
-        <p>Has cargado {consolas.length} consolas.</p>
-      </div>
+      {isLoading ? (
+        <div className="text-center py-20">
+          <p className="text-xl text-[#666666]">Cargando productos...</p>
+        </div>
+      ) : (
+        <div className="bg-[#F8F9FA] border border-[#DEDFE0] min-h-96 rounded-lg p-6">
+          <p className="text-gray-500">¡Datos cargados!</p>
+          <p className="text-[#444444]">Has cargado {juegos.length} juegos.</p>
+          <p className="text-[#444444]">Has cargado {marcas.length} marcas.</p>
+          <p className="text-[#444444]">Has cargado {consolas.length} consolas.</p>
+          {/* Aquí irá tu <GridProductos ... /> */}
+        </div>
+      )}
 
       {/* Aquí irán tus modales (que estarán ocultos) */}
       {/* <ModalAddProducto ... /> */}

@@ -6,11 +6,11 @@ import { Outlet } from 'react-router-dom'; //Aquí alternaremos entre Home y Tie
 function Layout() {
   return (
     // Esta estructura asegura que el footer baje
-    <div className="flex flex-col min-h-screen bg-gray-900 text-white">
+    <div className="flex flex-col min-h-screen bg-white text-[#444444] font-sans leading-relaxed">
       <Navbar />
 
-      {/* En Outlet se carga el contenido de la página en la que estemos (Home o Tienda) */}
-      <main className="flex-grow container mx-auto p-4">
+      {/* Aplicamos los estilos de tu <main> de ejemplo aquí */}
+      <main className="flex-grow py-8 px-5 max-w-7xl mx-auto w-full">
         <Outlet />
       </main>
 
