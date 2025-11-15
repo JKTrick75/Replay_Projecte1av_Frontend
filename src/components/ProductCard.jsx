@@ -1,6 +1,6 @@
 import React from 'react';
 
-function ProductCard({ juego }) {
+function ProductCard({ juego, onEdit, onDelete }) {
   
   //Placeholder si la imagen no existe
   const imageUrl = juego.foto || 'https://via.placeholder.com/300x200?text=No+Image';
@@ -33,15 +33,24 @@ function ProductCard({ juego }) {
           {juego.genero} 
         </p>
         
-        {/* Botones Update/Delete */}
         <div className="flex justify-between gap-2">
-          <button className="flex-1 text-sm bg-white border border-[#E96B56] text-[#E96B56] px-4 py-2 rounded-lg font-medium hover:bg-[#E96B56] hover:text-white duration-300">
+          {/* Boton Update */}
+          <button 
+            className="flex-1 text-sm bg-white border border-[#E96B56] text-[#E96B56] px-4 py-2 rounded-lg font-medium hover:bg-[#E96B56] hover:text-white duration-300"
+            onClick={() => onEdit(juego)}
+          >
             Editar
           </button>
-          <button className="flex-1 text-sm bg-gray-700 text-white px-4 py-2 rounded-lg font-medium hover:bg-gray-800 duration-300">
+
+          {/* Boton Delete */}
+          <button 
+            className="flex-1 text-sm bg-gray-700 text-white px-4 py-2 rounded-lg font-medium hover:bg-gray-800 duration-300"
+            onClick={() => onDelete(juego._id)}
+          >
             Borrar
           </button>
         </div>
+        
       </div>
     </div>
   );
