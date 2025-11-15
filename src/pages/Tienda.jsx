@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import GridProductos from '../components/GridProductos';
 import ModalAddProducto from '../components/ModalAddProducto';
-// import ModalEditProducto from '../components/ModalEditProducto';
+import ModalEditProducto from '../components/ModalEditProducto';
 import ButtonPrimary from '../components/ButtonPrimary';
 
 //URL BASE DE LA API DE EXPRESS
@@ -19,15 +19,10 @@ function Tienda() {
   const [juegoAEditar, setJuegoAEditar] = useState(null);
 
   //===========================================================================//
-  //== PROCESADO DE DATOS (Agrupar consolas) ==
+  //== AGRUPAR CONSOLAS POR MARCA ==
   //===========================================================================//
-  //Usamos useMemo para agrupar las consolas
+  //Usamos useMemo per a no recalcular altra vegada consolasAgrupadas al renderitzar Tienda (soles ho torna a executar si [marcas, consolas] canvia)
   const consolasAgrupadas = useMemo(() => {
-    if (marcas.length === 0 || consolas.length === 0) {
-      return [];
-    }
-    
-    //Recorremos las marcas
     return marcas.map(marca => {
       //Por cada marca, filtramos las consolas que le pertenecen
       const consolasDeLaMarca = consolas.filter(
@@ -40,7 +35,7 @@ function Tienda() {
         consolas: consolasDeLaMarca
       };
     });
-  }, [marcas, consolas]); //Se vuelve a ejecutar si Marcas o Consolas cambian
+  }, [marcas, consolas]);
 
   //===========================================================================//
   //== FUNCIONES CRUD (CREATE, UPDATE, DELETE) ==
@@ -110,10 +105,30 @@ function Tienda() {
   // --- UPDATE ---
   const handleUpdateAPI = async (juegoActualizado) => {
     console.log("Actualizando juego:", juegoActualizado);
-    // 1. Lógica FETCH PUT a tu API (`${API_URL}/juego/${juegoActualizado._id}`)
-    // 2. Recibir el juego actualizado
-    // 3. Actualizar el state: setJuegos(juegosActuales => juegosActuales.map(j => j._id === juegoActualizado._id ? juegoActualizado : j));
-    // 4. Cerrar el modal: handleCloseModals();
+    
+    try {
+      const response = await fetch(`${API_URL}/juego/${juegoActualizado._id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(juegoActualizado)
+      });
+      
+      const data = await response.json();
+      
+      if (!data.ok) throw new Error(data.error);
+
+      //Actualizamos el State de juegos
+      setJuegos(juegosActuales => 
+        juegosActuales.map(juego => 
+          juego._id === data.resultado._id ? data.resultado : juego
+        )
+      );
+      handleCloseModals(); //Cerramos modal
+
+    } catch (error) {
+      console.error("Error al actualizar el juego:", error);
+      alert("No se pudo actualizar el juego.");
+    }
   };
 
   // --- DELETE ---
@@ -195,8 +210,7 @@ function Tienda() {
       {juegoAEditar && (
         <ModalEditProducto
           juego={juegoAEditar}
-          marcas={marcas}
-          consolas={consolas}
+          consolasAgrupadas={consolasAgrupadas} //Pasamos las consolas agrupadas por marca
           onSave={handleUpdateAPI}
           onClose={handleCloseModals}
         />

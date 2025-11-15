@@ -1,4 +1,6 @@
 import React from 'react';
+import ButtonSecondary from './ButtonSecondary';
+import ButtonDark from './ButtonDark';
 
 function ProductCard({ juego, onEdit, onDelete }) {
   
@@ -35,20 +37,14 @@ function ProductCard({ juego, onEdit, onDelete }) {
         
         <div className="flex justify-between gap-2">
           {/* Boton Update */}
-          <button 
-            className="flex-1 text-sm bg-white border border-[#E96B56] text-[#E96B56] px-4 py-2 rounded-lg font-medium hover:bg-[#E96B56] hover:text-white duration-300"
-            onClick={() => onEdit(juego)}
-          >
+          <ButtonSecondary onClick={() => onEdit(juego)}>
             Editar
-          </button>
+          </ButtonSecondary>
 
           {/* Boton Delete */}
-          <button 
-            className="flex-1 text-sm bg-gray-700 text-white px-4 py-2 rounded-lg font-medium hover:bg-gray-800 duration-300"
-            onClick={() => onDelete(juego._id)}
-          >
+          <ButtonDark onClick={() => onDelete(juego._id)}>
             Borrar
-          </button>
+          </ButtonDark>
         </div>
         
       </div>
