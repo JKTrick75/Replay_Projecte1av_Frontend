@@ -184,7 +184,7 @@ function Tienda() {
         <ButtonPrimary
            onClick={handleOpenCreateModal}
         >
-          + Añadir Producto
+          <i className="fas fa-plus"></i> Añadir Producto
         </ButtonPrimary>
       </div>
 

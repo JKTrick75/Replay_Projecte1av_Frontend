@@ -38,12 +38,12 @@ function ProductCard({ juego, onEdit, onDelete }) {
         <div className="flex justify-between gap-2">
           {/* Boton Update */}
           <ButtonSecondary onClick={() => onEdit(juego)}>
-            Editar
+            <i className="fas fa-edit"></i> Editar
           </ButtonSecondary>
 
           {/* Boton Delete */}
           <ButtonDark onClick={() => onDelete(juego._id)}>
-            Borrar
+            <i className="fas fa-trash-alt"></i> Borrar
           </ButtonDark>
         </div>
         

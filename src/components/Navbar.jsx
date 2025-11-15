@@ -14,7 +14,11 @@ function Navbar() {
         
         {/* Logo y título */}
         <Link to="/" className="flex items-center text-2xl font-bold text-[#444444]">
-          <span role="img" aria-label="logo" className="h-10 mr-2.5 text-4xl">🎮</span>
+          <img 
+            src="/favicon.png" 
+            alt="Logo de Replay" 
+            className="h-8 mr-2.5" // Mantenemos las clases de tamaño y margen
+          />
           Replay
         </Link>
 

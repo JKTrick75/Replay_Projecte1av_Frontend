@@ -10,7 +10,11 @@ function Footer() {
         {/* Columna 1: Logo/Info */}
         <div>
           <Link to="/" className="flex items-center text-2xl font-bold mb-4">
-            <span role="img" aria-label="logo" className="h-10 mr-2.5 text-4xl">🎮</span>
+            <img 
+              src="/favicon.png" 
+              alt="Logo de Replay" 
+              className="h-7 mr-2.5" // Mantenemos las clases de tamaño y margen
+            />
             RePlay
           </Link>
           <div className="space-y-2">
@@ -45,9 +49,15 @@ function Footer() {
         <div>
           <h3 className="text-xl font-bold mb-6">Síguenos</h3>
           <div className="flex gap-4">
-            <SocialIcon href="#">F</SocialIcon>
-            <SocialIcon href="#">T</SocialIcon>
-            <SocialIcon href="#">I</SocialIcon>
+            <SocialIcon href="#">
+              <i className="fab fa-facebook"></i>
+            </SocialIcon>
+            <SocialIcon href="#">
+              <i className="fab fa-twitter"></i>
+            </SocialIcon>
+            <SocialIcon href="#">
+              <i className="fab fa-instagram"></i>
+            </SocialIcon>
           </div>
         </div>
       </div>
