@@ -11,9 +11,9 @@ const API_URL = 'http://localhost:8080';
 
 //Datos Cards Marcas
 const marcasDestacadas = [
-  { id: 'marca-1', nombre: 'Nintendo', img: '/img/marcas/nintendo-bg.jpg', link: '/tienda?marca=Nintendo' },
-  { id: 'marca-2', nombre: 'PlayStation', img: '/img/marcas/playstation-bg.jpg', link: '/tienda?marca=Sony' },
-  { id: 'marca-3', nombre: 'Xbox', img: '/img/marcas/xbox-bg.jpg', link: '/tienda?marca=Microsoft' }
+  { id: 'marca-1', nombre: 'Nintendo', img: '/img/marcas/nintendo-bg.jpg', link: '/tienda?marca=69047fcd3bc991d7f84958e4' },
+  { id: 'marca-2', nombre: 'PlayStation', img: '/img/marcas/playstation-bg.jpg', link: '/tienda?marca=690480b73bc991d7f84958e9' },
+  { id: 'marca-3', nombre: 'Xbox', img: '/img/marcas/xbox-bg.jpg', link: '/tienda?marca=691379f728c1cdaa2d7cf1bb' }
 ];
 
 //Definimos carrousel
@@ -95,21 +95,21 @@ function Home() {
           autoplay={{ delay: 3000, disableOnInteraction: false }}
           className="rounded-sm md:h-96 lg:h-[550px]"
         >
-          {/* Mapeamos el nuevo array 'slidesData' */}
+          {/* Recorremos los datos */}
           {slidesData.map(slide => (
             <SwiperSlide key={slide.id}>
               
               {/* Cada "slide" será un link para redirigir */}
               <Link to={slide.link} className="block w-full h-full relative text-white">
                 
-                {/* Cargamos imagen como fondo absoluto */}
+                {/* Imagen */}
                 <img 
                   src={slide.img} 
                   alt={slide.titulo} 
                   className="absolute inset-0 w-full h-full object-cover z-0"
                 />
                 
-                {/* Contenedor texto (con un fondo oscuro para legibilidad) */}
+                {/* Texto */}
                 <div className="relative z-10 flex flex-col items-center justify-center w-full h-full bg-black/20 p-4">
                   <h2 className="text-4xl md:text-5xl font-bold">
                     {slide.titulo}
@@ -146,13 +146,13 @@ function Home() {
           pagination={{ clickable: true }}
           className="pb-12" 
         >
+          {/* Recorremos los datos */}
           {consolas.map(consola => (
             <SwiperSlide key={consola._id}>
               <FeaturedCard
                 titulo={consola.nom}
-                // (Necesitarás una imagen por defecto o un campo 'foto' en tu modelo de Consola)
-                imagenFondo={consola.foto || '/img/consolas/default-bg.jpg'} 
-                linkTo={`/tienda?consola=${consola._id}`} // Link con filtro
+                imagenFondo={consola.foto || '/public/foto_consolas_default.webp'}
+                linkTo={`/tienda?consola=${consola._id}`} //Link con filtro
               />
             </SwiperSlide>
           ))}
@@ -165,13 +165,13 @@ function Home() {
           Marcas Destacadas
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Mapeamos los datos ESTÁTICOS */}
+          {/* Recorremos los datos */}
           {marcasDestacadas.map(marca => (
             <FeaturedCard
               key={marca.id}
               titulo={marca.nombre}
               imagenFondo={marca.img}
-              linkTo={marca.link}
+              linkTo={marca.link} //Link con filtro
             />
           ))}
         </div>
@@ -183,13 +183,13 @@ function Home() {
           Juegos Populares
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Mapeamos los datos DINÁMICOS (del fetch) */}
+          {/* Recorremos los datos */}
           {juegosPopulares.map(juego => (
             <FeaturedCard
               key={juego._id}
               titulo={juego.nom}
               imagenFondo={juego.foto || '/img/marcas/default-bg.jpg'} // Usamos la foto del juego
-              linkTo={`/tienda`} // (O podrías hacer un link a /juego/juego._id)
+              linkTo={`/tienda?juego=${juego._id}`} //Link con filtro
             />
           ))}
         </div>

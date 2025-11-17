@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom'; //Filtros
 import GridProductos from '../components/GridProductos';
 import ModalAddProducto from '../components/ModalAddProducto';
 import ModalEditProducto from '../components/ModalEditProducto';
@@ -17,6 +18,9 @@ function Tienda() {
   //Modales
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [juegoAEditar, setJuegoAEditar] = useState(null);
+
+  //hook 'useSearchParams'
+  const [searchParams, setSearchParams] = useSearchParams();
 
   //===========================================================================//
   //== AGRUPAR CONSOLAS POR MARCA ==
@@ -40,15 +44,42 @@ function Tienda() {
   //===========================================================================//
   //== FUNCIONES CRUD (CREATE, UPDATE, DELETE) ==
   //===========================================================================//
-
-  // --- READ --- FETCH para recibir los datos del backend
+  //====================================================//
+  // --- READ ---
+  //====================================================//
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
+
+      // ==================== FILTROS ===================== //
+      //Construimos la URL del endpoint dinámicamente
+      let juegosURL = `${API_URL}/juego`;
+      
+      //Buscamos si hay filtros
+      const juegoFiltro = searchParams.get('juego');
+      const consolaFiltro = searchParams.get('consola');
+      const marcaFiltro = searchParams.get('marca');
+
+      //Si hay filtros, los añadimos a la URL del endpoint
+      const params = new URLSearchParams();
+      if (juegoFiltro) {
+        params.append('juego', juegoFiltro);
+      } else if (consolaFiltro) {
+        params.append('consola', consolaFiltro);
+      } else if (marcaFiltro) {
+        params.append('marca', marcaFiltro);
+      }
+      
+      //Si había algún parámetro, lo añadimos a la URL
+      if (params.toString()) {
+        juegosURL += `?${params.toString()}`;
+      }
+
+      // ==================== FETCH ======================= //
       try {
         //Lanzamos las 3 peticiones a la vez (más rápido que por separado)
         const [juegosResponse, marcasResponse, consolasResponse] = await Promise.all([
-          fetch(`${API_URL}/juego`),
+          fetch(juegosURL),
           fetch(`${API_URL}/marca`),
           fetch(`${API_URL}/consola`)
         ]);
@@ -76,9 +107,11 @@ function Tienda() {
     };
 
     fetchData();
-  }, []); //El [] para ejecutarlo solo 1 vez al principio
+  }, [searchParams]); //El fetch se repite si los 'searchParams' cambian
 
+  //====================================================//
   // --- CREATE ---
+  //====================================================//
   const handleCreateAPI = async (nuevoJuego) => {
     console.log("Creando nuevo juego:", nuevoJuego);
     try {
@@ -102,7 +135,9 @@ function Tienda() {
     }
   };
 
+  //====================================================//
   // --- UPDATE ---
+  //====================================================//
   const handleUpdateAPI = async (juegoActualizado) => {
     console.log("Actualizando juego:", juegoActualizado);
     
@@ -117,7 +152,7 @@ function Tienda() {
       
       if (!data.ok) throw new Error(data.error);
 
-      //Actualizamos el State de juegos
+      //Actualizamos State de juegos
       setJuegos(juegosActuales => 
         juegosActuales.map(juego => 
           juego._id === data.resultado._id ? data.resultado : juego
@@ -131,11 +166,13 @@ function Tienda() {
     }
   };
 
+  //====================================================//
   // --- DELETE ---
+  //====================================================//
   const handleDelete = async (juegoId) => {
     console.log("Borrando juego con ID:", juegoId);
 
-    //Pedimos confirmación
+    //Confirmación
     if (!window.confirm("¿Estás seguro de que quieres borrar este juego?")) {
       return;
     }
@@ -145,7 +182,7 @@ function Tienda() {
         method: 'DELETE',
       });
 
-      // Actualizamos el state local al instante (¡Actualización Pesimista!)
+      //Actualizamos State
       setJuegos(juegosActuales =>
         juegosActuales.filter(juego => juego._id !== juegoId)
       );
