@@ -7,7 +7,9 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 
 //URL de la API
-const API_URL = 'http://localhost:8080';
+// const API_URL = 'http://localhost:8080';
+const API_URL = 'replay.us-east-1.elasticbeanstalk.com';
+
 
 //Datos Cards Marcas
 const marcasDestacadas = [
