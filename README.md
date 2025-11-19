@@ -47,7 +47,7 @@ La aplicación se estructura en varias páginas y componentes clave:
 
 1.  Clona este repositorio:
     ```bash
-    git clone https://github.com/JKTrick75/Replay_Projecte1av
+    git clone https://github.com/JKTrick75/Replay_Projecte1av_Frontend
     ```
 2.  Navega a la carpeta del proyecto:
     ```bash
