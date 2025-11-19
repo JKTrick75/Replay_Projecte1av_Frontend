@@ -13,7 +13,7 @@ La interfaz está construida con **React 19** y **Vite**, estilizada con **Tailw
 Este proyecto se divide en dos repositorios:
 
 * **🖥️ Frontend (Este repositorio):** Interfaz de usuario (React + Vite).
-* **⚙️ Backend API:** [Ir al Repositorio del Backend](URL_DE_TU_REPO_BACKEND_AQUI) - Servidor Node.js/Express + MongoDB.
+* **⚙️ Backend API:** [Ir al Repositorio del Backend](https://github.com/JKTrick75/Replay_Projecte1av_Backend) - Servidor Node.js/Express + MongoDB.
 
 ---
 
