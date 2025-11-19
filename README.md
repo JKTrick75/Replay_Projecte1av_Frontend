@@ -39,7 +39,7 @@ La aplicación se estructura en varias páginas y componentes clave:
         * **Eliminar:** Borra productos de la base de datos.
 * **Modelo de Datos Relacional:**
     * **Gestión de Marcas (1:N):** Cada consola pertenece a una única marca (ej. Nintendo, Sony).
-    * **Gestión de Plataformas (N:M):** Un juego puede estar disponible en múltiples consolas, implementado mediante un array de IDs (similar a la lógica de "Géneros" del proyecto anterior).
+    * **Gestión de Plataformas (N:M):** Un juego puede estar disponible en múltiples consolas, implementado mediante un array de IDs.
 
 ---
 
@@ -69,4 +69,4 @@ La aplicación se estructura en varias páginas y componentes clave:
 
 ## 🎓 Contexto
 
-Este proyecto ha sido desarrollado por David Martínez Borderia, como parte de la asignatura de Proyecto Intermodular del 2º año de Desarrollo de Aplicaciones Web.
+Este proyecto ha sido desarrollado por David Martínez Borderia, como parte de la asignatura de Proyecto Intermodular del 2º año de Desarrollo de Aplicaciones Web (1a AV).
