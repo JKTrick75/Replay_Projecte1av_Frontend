@@ -8,7 +8,7 @@ import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 
 //URL de la API
 // const API_URL = 'http://localhost:8080';
-const API_URL = 'replay.us-east-1.elasticbeanstalk.com';
+const API_URL = 'http://replay.eu-west-3.elasticbeanstalk.com';
 
 
 //Datos Cards Marcas
@@ -153,7 +153,7 @@ function Home() {
             <SwiperSlide key={consola._id}>
               <FeaturedCard
                 titulo={consola.nom}
-                imagenFondo={consola.foto || '/public/foto_consolas_default.webp'}
+                imagenFondo={consola.foto || '/foto_consolas_default.webp'}
                 linkTo={`/tienda?consola=${consola._id}`} //Link con filtro
               />
             </SwiperSlide>
