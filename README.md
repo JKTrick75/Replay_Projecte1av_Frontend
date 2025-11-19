@@ -1,8 +1,8 @@
-# 🎮 RePlay: Tienda de Segunda Mano (Frontend)
+# 🎮 Replay: Tienda de Segunda Mano (Frontend)
 
 > **Live Demo:** [Ver Aplicación Desplegada en AWS Amplify](https://main.d30682b0n15jlt.amplifyapp.com/) 🚀
 
-Este repositorio contiene el código *frontend* de **RePlay**, una aplicación web moderna para la gestión y visualización de productos de segunda mano, especializada en consolas y videojuegos.
+Este repositorio contiene el código *frontend* de **Replay**, una aplicación web moderna para la gestión y visualización de productos de segunda mano, especializada en consolas y videojuegos.
 
 La interfaz está construida con **React 19** y **Vite**, estilizada con **Tailwind CSS 4** y se comunica con una API REST externa.
 
@@ -51,7 +51,7 @@ Si quieres ejecutar este proyecto en local:
 
 1.  **Clona el repositorio:**
     ```bash
-    git clone [https://github.com/JKTrick75/Replay_Projecte1av](https://github.com/JKTrick75/Replay_Projecte1av)
+    git clone [https://github.com/JKTrick75/Replay_Projecte1av_Frontend](https://github.com/JKTrick75/Replay_Projecte1av_Frontend)
     cd Replay_Projecte1av
     ```
 
@@ -66,8 +66,6 @@ Si quieres ejecutar este proyecto en local:
     // Para local:
     // const API_URL = 'http://localhost:8080';
     
-    // Para producción (AWS):
-    const API_URL = '[https://d1qdb2usr96zps.cloudfront.net](https://d1qdb2usr96zps.cloudfront.net)'; 
     ```
 
 4.  **Arranca el servidor:**
