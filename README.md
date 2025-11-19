@@ -1,72 +1,86 @@
-# 🎮 RePlay: Tienda de Segunda Mano
+# 🎮 RePlay: Tienda de Segunda Mano (Frontend)
 
-Este repositorio contiene el código *frontend* de **Replay**, una aplicación web para la gestión y visualización de productos de segunda mano, especializada en consolas y videojuegos.
+> **Live Demo:** [Ver Aplicación Desplegada en AWS Amplify](https://main.d30682b0n15jlt.amplifyapp.com/) 🚀
 
-La interfaz está construida con **React** y **Vite**, y estilizada al 100% con **Tailwind CSS**.
+Este repositorio contiene el código *frontend* de **RePlay**, una aplicación web moderna para la gestión y visualización de productos de segunda mano, especializada en consolas y videojuegos.
 
-Este proyecto consume una API REST propia construida con **Node.js, Express y MongoDB**, que gestiona toda la lógica de negocio y la persistencia de datos.
+La interfaz está construida con **React 19** y **Vite**, estilizada con **Tailwind CSS 4** y se comunica con una API REST externa.
+
+---
+
+## 🔗 Enlaces del Proyecto
+
+Este proyecto se divide en dos repositorios:
+
+* **🖥️ Frontend (Este repositorio):** Interfaz de usuario (React + Vite).
+* **⚙️ Backend API:** [Ir al Repositorio del Backend](URL_DE_TU_REPO_BACKEND_AQUI) - Servidor Node.js/Express + MongoDB.
+
+---
 
 ## 🚀 Tecnologías Utilizadas
 
-### Frontend
-* **React**
-* **Vite:** Como herramienta de *build* y servidor de desarrollo.
-* **Tailwind CSS 4:** Para todo el diseño de la UI, usando el plugin `@tailwindcss/vite`.
-* **React Router:** (Lo usaremos) Para la navegación entre páginas.
-
-### Backend (Servidor Aparte)
-* **Node.js**
-* **Express:** Para la creación de la API REST.
-* **MongoDB:** Como base de datos NoSQL.
+* **Core:** React 19, Vite.
+* **Estilos:** Tailwind CSS 4 (con plugin `@tailwindcss/vite`).
+* **Routing:** React Router DOM v6 (navegación SPA).
+* **Iconos:** Font Awesome (vía CDN Kit).
+* **Componentes UI:** Swiper.js (Carruseles), Modales personalizados, Formularios con Hooks propios.
+* **Despliegue:** AWS Amplify (CI/CD conectado a GitHub).
 
 ---
 
 ## ✨ Características Principales
 
-La aplicación se estructura en varias páginas y componentes clave:
-
-* **Navegación Limpia:** Un `Layout` persistente que incluye un `Navbar` y un `Footer` en todas las páginas.
-* **Página de Inicio (`/home`):**
-    * Página de bienvenida y presentación.
-    * Incluye un carrusel principal de novedades.
-    * Muestra tarjetas con productos destacados (marcas, juegos populares, etc.).
-* **Página de Tienda (`/tienda`):**
-    * Es el núcleo funcional de la aplicación.
-    * **Visualización de Productos:** Muestra todos los juegos y consolas disponibles en un *grid* de tarjetas.
-    * **Operaciones CRUD completas:**
-        * **Crear:** Permite añadir nuevos productos (juegos o consolas) a través de un formulario modal.
-        * **Editar:** Modifica la información de productos existentes (incluyendo sus relaciones) en un modal.
-        * **Eliminar:** Borra productos de la base de datos.
-* **Modelo de Datos Relacional:**
-    * **Gestión de Marcas (1:N):** Cada consola pertenece a una única marca (ej. Nintendo, Sony).
-    * **Gestión de Plataformas (N:M):** Un juego puede estar disponible en múltiples consolas, implementado mediante un array de IDs.
+* **Navegación Fluida:** Arquitectura SPA (*Single Page Application*) con `Layout` persistente (Navbar/Footer fijos).
+* **Página de Inicio (`/`):**
+    * **Carrusel Hero:** Slider interactivo con las novedades destacadas.
+    * **Secciones Dinámicas:** Listados de marcas y juegos populares obtenidos de la API.
+* **Tienda (`/tienda`):**
+    * **Filtrado Inteligente:** Filtra productos por Consola o Marca directamente desde la URL (`?consola=ID`, `?marca=ID`).
+    * **Grid de Productos:** Visualización responsive de tarjetas de producto.
+    * **CRUD Completo:**
+        * **Crear:** Modal con validación para añadir nuevos juegos (con selector de consolas agrupadas).
+        * **Editar:** Edición en tiempo real de datos y relaciones.
+        * **Eliminar:** Borrado de productos con confirmación.
+* **Seguridad:** Comunicación segura mediante HTTPS (gracias a AWS CloudFront en el backend).
 
 ---
 
 ## 📦 Instalación y Puesta en Marcha
 
-1.  Clona este repositorio:
+Si quieres ejecutar este proyecto en local:
+
+1.  **Clona el repositorio:**
     ```bash
-    git clone https://github.com/JKTrick75/Replay_Projecte1av_Frontend
+    git clone [https://github.com/JKTrick75/Replay_Projecte1av](https://github.com/JKTrick75/Replay_Projecte1av)
+    cd Replay_Projecte1av
     ```
-2.  Navega a la carpeta del proyecto:
-    ```bash
-    cd nombre-del-proyecto
-    ```
-3.  Instala las dependencias de Node.js:
+
+2.  **Instala dependencias:**
     ```bash
     npm install
     ```
-4.  Inicia el servidor de desarrollo de Vite:
+
+3.  **Configura la API:**
+    Abre `src/pages/Tienda.jsx` y `src/pages/Home.jsx` y asegúrate de que la variable `API_URL` apunta a tu servidor backend (local o producción):
+    ```javascript
+    // Para local:
+    // const API_URL = 'http://localhost:8080';
+    
+    // Para producción (AWS):
+    const API_URL = '[https://d1qdb2usr96zps.cloudfront.net](https://d1qdb2usr96zps.cloudfront.net)'; 
+    ```
+
+4.  **Arranca el servidor:**
     ```bash
     npm run dev
     ```
-5.  ¡Abre `http://localhost:5173` (o el puerto indicado) en tu navegador!
 
-> **Importante:** Este proyecto (frontend) requiere que el servidor de **backend** (Node/Express) esté ejecutándose por separado para que las peticiones a la API funcionen correctamente.
+5.  **¡Listo!** Abre `http://localhost:5173` en tu navegador.
+
+> **Nota:** Necesitas tener el servidor Backend corriendo para que la web muestre datos.
 
 ---
 
 ## 🎓 Contexto
 
-Este proyecto ha sido desarrollado por David Martínez Borderia, como parte de la asignatura de Proyecto Intermodular del 2º año de Desarrollo de Aplicaciones Web (1a AV).
+Este proyecto ha sido desarrollado por **David Martínez Borderia**, como parte de la asignatura de Proyecto Intermodular del 2º año de Desarrollo de Aplicaciones Web (1a AV).
