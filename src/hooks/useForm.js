@@ -19,6 +19,7 @@ export function useForm(initialState) {
         setFormData(formData => ({ ...formData, [name]: value }));
     };
 
+    //Toggle incluir/excluir del array
     const handleToggleArrayField = (fieldName, valueToToggle) => {
         //Recogemos el State del array actual (formData.<nombre_campo>)
         const currentArray = formData[fieldName] || [];

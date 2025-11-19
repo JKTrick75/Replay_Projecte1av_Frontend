@@ -6,9 +6,7 @@ import ModalEditProducto from '../components/ModalEditProducto';
 import ButtonPrimary from '../components/ButtonPrimary';
 
 //URL BASE DE LA API DE EXPRESS
-// const API_URL = 'http://localhost:8080';
-// const API_URL = 'http://replay.eu-west-3.elasticbeanstalk.com';
-const API_URL = 'https://d1qdbeusr96zps.cloudfront.net';
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Tienda() {
   //Inicializamos estados

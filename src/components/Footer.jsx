@@ -13,9 +13,9 @@ function Footer() {
             <img 
               src="/favicon.png" 
               alt="Logo de Replay" 
-              className="h-7 mr-2.5" // Mantenemos las clases de tamaño y margen
+              className="h-7 mr-2.5"
             />
-            RePlay
+            Replay
           </Link>
           <div className="space-y-2">
             <p className="flex items-center text-white/70">info@replay.com</p>

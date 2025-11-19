@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom';
 
 function Layout() {
   return (
-    //Asegurar que el footer esté abajo
+    //Navbar - Outlet - Footer
     <div className="flex flex-col min-h-screen bg-white text-[#444444] font-sans leading-relaxed">
       <Navbar />
 

@@ -17,7 +17,7 @@ function Navbar() {
           <img 
             src="/favicon.png" 
             alt="Logo de Replay" 
-            className="h-8 mr-2.5" // Mantenemos las clases de tamaño y margen
+            className="h-8 mr-2.5"
           />
           Replay
         </Link>
@@ -33,15 +33,6 @@ function Navbar() {
             <NavLink to="/tienda" className={navLinkClass}>
               Tienda
             </NavLink>
-          </li>
-          {/* Botón de Registro (En obras) */}
-          <li>
-            <a 
-              href="#" 
-              className="bg-[#E96B56] text-white px-4 py-2 rounded font-medium hover:bg-[#ee8b7a] duration-300 text-base"
-            >
-              Registro
-            </a>
           </li>
         </ul>
       </div>

@@ -7,9 +7,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 
 //URL de la API
-// const API_URL = 'http://localhost:8080';
-// const API_URL = 'http://replay.eu-west-3.elasticbeanstalk.com';
-const API_URL = 'https://d1qdbeusr96zps.cloudfront.net';
+const API_URL = import.meta.env.VITE_API_URL;
 
 
 //Datos Cards Marcas

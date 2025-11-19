@@ -7,10 +7,10 @@ function FeaturedCard({ titulo, imagenFondo, linkTo }) {
       to={linkTo} 
       className="relative block h-48 w-full rounded-lg overflow-hidden shadow-lg group"
     >
-      {/* Imagen fondo (con blur) */}
+      {/* Imagen fondo (blur) */}
       <img
         src={imagenFondo}
-        className="absolute inset-0 w-full h-full object-cover filter blur-sm transform group-hover:scale-110 transition-transform duration-300"
+        className="absolute inset-0 w-full h-full object-cover filter blur-[1px] transform group-hover:scale-110 transition-transform duration-300"
       />
       
       <div className="absolute inset-0 bg-black/40"></div>
