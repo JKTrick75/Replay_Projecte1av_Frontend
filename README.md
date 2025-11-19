@@ -51,29 +51,28 @@ Si quieres ejecutar este proyecto en local:
 
 1.  **Clona el repositorio:**
     ```bash
-    git clone [https://github.com/JKTrick75/Replay_Projecte1av_Frontend](https://github.com/JKTrick75/Replay_Projecte1av_Frontend)
-    cd Replay_Projecte1av
+    git clone https://github.com/JKTrick75/Replay_Projecte1av_Frontend Replay_Projecte1av_Frontend
     ```
-
-2.  **Instala dependencias:**
+2.  **Navega a la carpeta del proyecto:**
+    ```bash
+    cd Replay_Projecte1av_Frontend
+    ```
+3.  **Instala dependencias:**
     ```bash
     npm install
     ```
-
-3.  **Configura la API:**
+4.  **Configura la API:**
     Abre `src/pages/Tienda.jsx` y `src/pages/Home.jsx` y asegúrate de que la variable `API_URL` apunta a tu servidor backend (local o producción):
     ```javascript
     // Para local:
     // const API_URL = 'http://localhost:8080';
     
     ```
-
-4.  **Arranca el servidor:**
+5.  **Arranca el servidor:**
     ```bash
     npm run dev
     ```
-
-5.  **¡Listo!** Abre `http://localhost:5173` en tu navegador.
+6.  **¡Listo!** Abre `http://localhost:5173` en tu navegador.
 
 > **Nota:** Necesitas tener el servidor Backend corriendo para que la web muestre datos.
 
