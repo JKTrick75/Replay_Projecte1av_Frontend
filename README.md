@@ -62,11 +62,9 @@ Si quieres ejecutar este proyecto en local:
     npm install
     ```
 4.  **Configura la API:**
-    Abre `src/pages/Tienda.jsx` y `src/pages/Home.jsx` y asegúrate de que la variable `API_URL` apunta a tu servidor backend (local o producción):
+    Abre `src/pages/Tienda.jsx` y `src/pages/Home.jsx` y asegúrate de que la variable `API_URL` apunta a tu servidor backend:
     ```javascript
-    // Para local:
     // const API_URL = 'http://localhost:8080';
-    
     ```
 5.  **Arranca el servidor:**
     ```bash
