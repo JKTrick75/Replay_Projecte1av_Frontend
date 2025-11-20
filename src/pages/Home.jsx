@@ -12,9 +12,9 @@ import { useAPI } from '../hooks/useAPI';
 
 //Datos Cards Marcas
 const marcasDestacadas = [
-  { id: 'marca-1', nombre: 'Nintendo', img: '/img/marcas/nintendo-bg.jpg', link: '/tienda?marca=69047fcd3bc991d7f84958e4' },
-  { id: 'marca-2', nombre: 'PlayStation', img: '/img/marcas/playstation-bg.jpg', link: '/tienda?marca=690480b73bc991d7f84958e9' },
-  { id: 'marca-3', nombre: 'Xbox', img: '/img/marcas/xbox-bg.jpg', link: '/tienda?marca=691379f728c1cdaa2d7cf1bb' }
+  { id: 'marca-1', nombre: 'Nintendo', img: '/nintendo-bg.webp', link: '/tienda?marca=69047fcd3bc991d7f84958e4' },
+  { id: 'marca-2', nombre: 'PlayStation', img: '/playstation-bg.webp', link: '/tienda?marca=690480b73bc991d7f84958e9' },
+  { id: 'marca-3', nombre: 'Xbox', img: '/xbox-bg.webp', link: '/tienda?marca=691379f728c1cdaa2d7cf1bb' }
 ];
 
 //Definimos carrousel
