@@ -1,11 +1,13 @@
-// src/components/ModalAddProducto.jsx
-import React from 'react';
+import React, { useContext } from 'react';
 import { useForm } from '../hooks/useForm';
 import SelectorConsolas from './SelectorConsolas';
 import ButtonPrimary from './ButtonPrimary';
 import ButtonSecondary from './ButtonSecondary';
+import { ReplayContext } from '../context/ReplayContext'; //Importamos ReplayContext
 
-function ModalAddProducto({ consolasAgrupadas, onSave, onClose }) {
+function ModalAddProducto({ onClose }) {
+  //Obtenemos los datos y la función del ReplayContext
+  const { addJuego, consolasAgrupadas } = useContext(ReplayContext);
   
   //Usamos useForm para el estado del formulario
   const [formData, handleChangeForm, resetForm, setFieldForm, handleToggleArrayField] = useForm({
@@ -18,21 +20,22 @@ function ModalAddProducto({ consolasAgrupadas, onSave, onClose }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
     //Validación
     if (!formData.nom || !formData.genero || !formData.precio) {
       alert('Por favor, completa los campos.');
       return;
     }
-    //Llamamos a la función 'handleCreateAPI' de Tienda.jsx
-    onSave(formData);
+    //Llamamos a la función de añadir juego de ReplayContext
+    addJuego(formData);
   };
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-      onClick={onClose}
+      onClick={onClose} //Cerramos al pulsar fuera del modal
     >
       <div className="bg-white w-full max-w-3xl p-8 rounded-lg shadow-md overflow-y-auto max-h-[90vh]"
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()} //Evitamos que se cierre al pulsar dentro
       >
         
         <h1 className="text-3xl font-bold text-center mb-2 text-[#444444]">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import FeaturedCard from '../components/FeaturedCard';
 
@@ -6,9 +6,9 @@ import FeaturedCard from '../components/FeaturedCard';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 
-//URL de la API
-const API_URL = import.meta.env.VITE_API_URL;
-
+//Importamos el ReplayContext y el useAPI
+import { ReplayContext } from '../context/ReplayContext';
+import { useAPI } from '../hooks/useAPI';
 
 //Datos Cards Marcas
 const marcasDestacadas = [
@@ -43,40 +43,23 @@ const slidesData = [
 ];
 
 function Home() {
-  //State JuegosPopulares
+  //Obtenemos los datos necesarios del ReplayContext y useAPI
+  const { consolas } = useContext(ReplayContext);
+  const { getItems } = useAPI();
+  //Calculamos los juegos más populares
   const [juegosPopulares, setJuegosPopulares] = useState([]);
-  //State Consolas carrousel
-  const [consolas, setConsolas] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        //Hacemos fetch de juegos Y consolas
-        const [juegosResponse, consolasResponse] = await Promise.all([
-          fetch(`${API_URL}/juego`),
-          fetch(`${API_URL}/consola`)
-        ]);
-
-        const juegosData = await juegosResponse.json();
-        const consolasData = await consolasResponse.json();
-        
-        //Guardamos los 3 juegos populares
-        if (juegosData.ok && Array.isArray(juegosData.resultado)) {
-          const primerosTresJuegos = juegosData.resultado.slice(0, 3);
-          setJuegosPopulares(primerosTresJuegos);
-        }
-        
-        //Guardamos TODAS las consolas
-        if (consolasData.ok && Array.isArray(consolasData.resultado)) {
-          setConsolas(consolasData.resultado);
-        }
-        
-      } catch (error) {
-        console.error("Error al cargar datos de la home:", error);
+useEffect(() => {
+    const cargarPopulares = async () => {
+      //Obtenemos todos los juegos y cogemos solo los 3 primeros
+      const datos = await getItems('juego');
+      
+      if (datos && Array.isArray(datos)) {
+        setJuegosPopulares(datos.slice(0, 3));
       }
     };
 
-    fetchData();
+    cargarPopulares();
   }, []); //El [] hace que solo se ejecuta 1 vez al inicio
 
 
@@ -189,7 +172,7 @@ function Home() {
             <FeaturedCard
               key={juego._id}
               titulo={juego.nom}
-              imagenFondo={juego.foto || '/img/marcas/default-bg.jpg'} // Usamos la foto del juego
+              imagenFondo={juego.foto || '/img/marcas/default-bg.jpg'} //Usamos la foto del juego
               linkTo={`/tienda?juego=${juego._id}`} //Link con filtro
             />
           ))}

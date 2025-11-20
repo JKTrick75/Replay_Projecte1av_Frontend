@@ -1,214 +1,36 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useSearchParams } from 'react-router-dom'; //Filtros
 import GridProductos from '../components/GridProductos';
 import ModalAddProducto from '../components/ModalAddProducto';
 import ModalEditProducto from '../components/ModalEditProducto';
 import ButtonPrimary from '../components/ButtonPrimary';
+import { ReplayContext } from '../context/ReplayContext'; //Importamos ReplayContext
 
 //URL BASE DE LA API DE EXPRESS
 const API_URL = import.meta.env.VITE_API_URL;
 
 function Tienda() {
-  //Inicializamos estados
-  const [juegos, setJuegos] = useState([]);
-  const [marcas, setMarcas] = useState([]);
-  const [consolas, setConsolas] = useState([]);
-  //isLoading
-  const [isLoading, setIsLoading] = useState(true);
-  //Modales
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [juegoAEditar, setJuegoAEditar] = useState(null);
+  const [searchParams] = useSearchParams();
 
-  //hook 'useSearchParams'
-  const [searchParams, setSearchParams] = useSearchParams();
+  //Obtenemos todo lo necesario del ReplayContext
+  const {
+    juegos, isLoading, fetchJuegos, 
+    isCreateModalOpen, juegoAEditar, 
+    openCreateModal, openEditModal, removeJuego, closeModals 
+  } = useContext(ReplayContext);
 
-  //===========================================================================//
-  //== AGRUPAR CONSOLAS POR MARCA ==
-  //===========================================================================//
-  //Usamos useMemo per a no recalcular altra vegada consolasAgrupadas al renderitzar Tienda (soles ho torna a executar si [marcas, consolas] canvia)
-  const consolasAgrupadas = useMemo(() => {
-    return marcas.map(marca => {
-      //Por cada marca, filtramos las consolas que le pertenecen
-      const consolasDeLaMarca = consolas.filter(
-        consola => consola.marca_id === marca._id
-      );
-      
-      //Devolvemos el objeto agrupado
-      return {
-        marca: marca.nom,
-        consolas: consolasDeLaMarca
-      };
-    });
-  }, [marcas, consolas]);
-
-  //===========================================================================//
-  //== FUNCIONES CRUD (CREATE, UPDATE, DELETE) ==
-  //===========================================================================//
-  //====================================================//
-  // --- READ ---
-  //====================================================//
+  //Cargamos los juegos cuando cambia la URL
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-
-      // ==================== FILTROS ===================== //
-      //Construimos la URL del endpoint dinámicamente
-      let juegosURL = `${API_URL}/juego`;
-      
-      //Buscamos si hay filtros
-      const juegoFiltro = searchParams.get('juego');
-      const consolaFiltro = searchParams.get('consola');
-      const marcaFiltro = searchParams.get('marca');
-
-      //Si hay filtros, los añadimos a la URL del endpoint
+      //Construimos la query string
       const params = new URLSearchParams();
-      if (juegoFiltro) {
-        params.append('juego', juegoFiltro);
-      } else if (consolaFiltro) {
-        params.append('consola', consolaFiltro);
-      } else if (marcaFiltro) {
-        params.append('marca', marcaFiltro);
-      }
+      if (searchParams.get('juego')) params.append('juego', searchParams.get('juego'));
+      else if (searchParams.get('consola')) params.append('consola', searchParams.get('consola'));
+      else if (searchParams.get('marca')) params.append('marca', searchParams.get('marca'));
+
+      //Obtenemos juegos
+      fetchJuegos(params.toString());
       
-      //Si había algún parámetro, lo añadimos a la URL
-      if (params.toString()) {
-        juegosURL += `?${params.toString()}`;
-      }
-
-      // ==================== FETCH ======================= //
-      try {
-        //Lanzamos las 3 peticiones a la vez (más rápido que por separado)
-        const [juegosResponse, marcasResponse, consolasResponse] = await Promise.all([
-          fetch(juegosURL),
-          fetch(`${API_URL}/marca`),
-          fetch(`${API_URL}/consola`)
-        ]);
-
-        //Pasamos la respuesta a json
-        const juegosData = await juegosResponse.json();
-        const marcasData = await marcasResponse.json();
-        const consolasData = await consolasResponse.json();
-
-        //Guardamos los datos en los states (guardamos solo la parte de .resultado de la respuesta)
-        setJuegos(juegosData.resultado);
-        setMarcas(marcasData.resultado);
-        setConsolas(consolasData.resultado);
-
-        //DEBUG
-        console.log("Juegos cargados:", juegosData.resultado);
-        console.log("Marcas cargadas:", marcasData.resultado);
-        console.log("Consolas cargadas:", consolasData.resultado);
-
-      } catch (error) {
-        console.error("Error al cargar los datos de la API:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [searchParams]); //El fetch se repite si los 'searchParams' cambian
-
-  //====================================================//
-  // --- CREATE ---
-  //====================================================//
-  const handleCreateAPI = async (nuevoJuego) => {
-    console.log("Creando nuevo juego:", nuevoJuego);
-    try {
-      const response = await fetch(`${API_URL}/juego`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(nuevoJuego)
-      });
-      
-      const data = await response.json();
-      
-      if (!data.ok) throw new Error(data.error);
-
-      //Añadimos el nuevo juego al State
-      setJuegos(juegosActuales => [...juegosActuales, data.resultado]);
-      handleCloseModals(); //Cerramos modal
-
-    } catch (error) {
-      console.error("Error al crear el juego:", error);
-      alert("No se pudo crear el juego.");
-    }
-  };
-
-  //====================================================//
-  // --- UPDATE ---
-  //====================================================//
-  const handleUpdateAPI = async (juegoActualizado) => {
-    console.log("Actualizando juego:", juegoActualizado);
-    
-    try {
-      const response = await fetch(`${API_URL}/juego/${juegoActualizado._id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(juegoActualizado)
-      });
-      
-      const data = await response.json();
-      
-      if (!data.ok) throw new Error(data.error);
-
-      //Actualizamos State de juegos
-      setJuegos(juegosActuales => 
-        juegosActuales.map(juego => 
-          juego._id === data.resultado._id ? data.resultado : juego
-        )
-      );
-      handleCloseModals(); //Cerramos modal
-
-    } catch (error) {
-      console.error("Error al actualizar el juego:", error);
-      alert("No se pudo actualizar el juego.");
-    }
-  };
-
-  //====================================================//
-  // --- DELETE ---
-  //====================================================//
-  const handleDelete = async (juegoId) => {
-    console.log("Borrando juego con ID:", juegoId);
-
-    //Confirmación
-    if (!window.confirm("¿Estás seguro de que quieres borrar este juego?")) {
-      return;
-    }
-
-    try {
-      await fetch(`${API_URL}/juego/${juegoId}`, {
-        method: 'DELETE',
-      });
-
-      //Actualizamos State
-      setJuegos(juegosActuales =>
-        juegosActuales.filter(juego => juego._id !== juegoId)
-      );
-
-    } catch (error) {
-      console.error("Error al borrar el juego:", error);
-      alert("No se pudo borrar el juego.");
-    }
-  };
-
-  //===========================================================================//
-  //== ABRIR Y CERRAR MODALES ==
-  //===========================================================================//
-  
-  const handleOpenCreateModal = () => {
-    setIsCreateModalOpen(true);
-  };
-
-  const handleOpenEditModal = (juego) => {
-    setJuegoAEditar(juego);
-  };
-
-  const handleCloseModals = () => {
-    setIsCreateModalOpen(false);
-    setJuegoAEditar(null);
-  };
+  }, [searchParams]); //Se ejecuta al cambiar filtros
 
   //===========================================================================//
   //===========================================================================//
@@ -219,7 +41,7 @@ function Tienda() {
         <h1 className="text-4xl font-bold text-[#444444]">Nuestros Productos</h1>
         {/* Botón añadir producto */}
         <ButtonPrimary
-           onClick={handleOpenCreateModal}
+           onClick={openCreateModal}
         >
           <i className="fas fa-plus"></i> Añadir Producto
         </ButtonPrimary>
@@ -230,26 +52,22 @@ function Tienda() {
       ) : (
         <GridProductos 
           juegos={juegos}
-          onEdit={handleOpenEditModal} //Pasamos función de abrir modal Editar
-          onDelete={handleDelete}      //Pasamos función de Borrar
+          onEdit={openEditModal} //Pasamos función de abrir modal Editar
+          onDelete={removeJuego}      //Pasamos función de Borrar
         />
       )}
 
       {/* --- MODALES --- */}
       {isCreateModalOpen && (
         <ModalAddProducto
-          consolasAgrupadas={consolasAgrupadas} //Pasamos las consolas agrupadas por marca
-          onSave={handleCreateAPI}
-          onClose={handleCloseModals}
+          onClose={closeModals}
         />
       )}
 
       {juegoAEditar && (
         <ModalEditProducto
           juego={juegoAEditar}
-          consolasAgrupadas={consolasAgrupadas} //Pasamos las consolas agrupadas por marca
-          onSave={handleUpdateAPI}
-          onClose={handleCloseModals}
+          onClose={closeModals}
         />
       )}
     </div>

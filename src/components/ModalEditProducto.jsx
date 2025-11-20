@@ -1,11 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useForm } from '../hooks/useForm';
 import SelectorConsolas from './SelectorConsolas';
 import ButtonPrimary from './ButtonPrimary';
 import ButtonSecondary from './ButtonSecondary';
+import { ReplayContext } from '../context/ReplayContext'; //Importamos ReplayContext
 
-function ModalEditProducto({ juego, consolasAgrupadas, onSave, onClose }) {
+function ModalEditProducto({ juego, onClose }) {
+  //Obtenemos los datos y la función del ReplayContext
+  const { updateJuego, consolasAgrupadas } = useContext(ReplayContext);
   
+  //Usamos useForm para el estado del formulario
   const [formData, handleChangeForm, resetForm, setFieldForm, handleToggleArrayField] = useForm({
     nom: '',
     genero: '',
@@ -27,21 +31,23 @@ function ModalEditProducto({ juego, consolasAgrupadas, onSave, onClose }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     //Validación
     if (!formData.nom || !formData.genero || !formData.precio) {
       alert('Por favor, completa al menos el nombre y el género.');
       return;
     }
-    //Llamamos a onSave (handleUpdateAPI) y le pasamos el ID del juego original
-    onSave({ ...formData, _id: juego._id }); 
+
+    //Updateamos juego usando la función del ReplayContext
+    updateJuego({ ...formData, _id: juego._id });
   };
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-        onClick={onClose}
+        onClick={onClose} //Cerrar modal al pulsar fuera
     >
       <div className="bg-white w-full max-w-3xl p-8 rounded-lg shadow-md overflow-y-auto max-h-[90vh]"
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()} //Evitamos el cierre al pulsar dentro
       >
 
         <h1 className="text-3xl font-bold text-center mb-2 text-[#444444]">
