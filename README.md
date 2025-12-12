@@ -1,6 +1,6 @@
 # 🎮 Replay: Tienda de Segunda Mano (Frontend)
 
-> **Live Demo:** [Ver Aplicación Desplegada en AWS Amplify](https://main.d30682b0n15jlt.amplifyapp.com/) 🚀
+> **Live Demo:** [Ver Aplicación Desplegada en AWS Amplify](https://main.d25ue0ga4v5n7g.amplifyapp.com/) 🚀
 
 Este repositorio contiene el código *frontend* de **Replay**, una aplicación web moderna para la gestión y visualización de productos de segunda mano, especializada en consolas y videojuegos.
 
