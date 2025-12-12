@@ -6,6 +6,15 @@ export function useAPI() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    //Generar cabeceras con token para las peticiones
+    const getAuthHeaders = () => {
+        const token = localStorage.getItem('token');
+        return {
+            'Content-Type': 'application/json',
+            ...(token && { 'x-access-token': token }) //Si hay token, lo añade
+        };
+    };
+
     //READ
     const getItems = async (endpoint) => {
         setIsLoading(true);
@@ -14,9 +23,12 @@ export function useAPI() {
             //Permitimos pasar URLs completas (para los filtros) o endpoints relativos
             const url = endpoint.startsWith('http') ? endpoint : `${BASE_URL}/${endpoint}`;
             
-            const response = await fetch(url);
+            //Petición, pasamos token en el header
+            const response = await fetch(url, {
+                headers: getAuthHeaders() 
+            });
+
             const data = await response.json();
-            
             if (!data.ok) throw new Error(data.error || response.statusText);
             
             return data.resultado;
@@ -35,7 +47,7 @@ export function useAPI() {
         try {
             const response = await fetch(`${BASE_URL}/${endpoint}`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: getAuthHeaders(), //Pasamos token
                 body: JSON.stringify(item),
             });
             const data = await response.json();
@@ -43,7 +55,7 @@ export function useAPI() {
             return data.resultado;
         } catch (err) {
             setError(err.message);
-            return null;
+            throw err;
         } finally {
             setIsLoading(false);
         }
@@ -55,7 +67,7 @@ export function useAPI() {
         try {
             const response = await fetch(`${BASE_URL}/${endpoint}/${id}`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                headers: getAuthHeaders(), //Pasamos token
                 body: JSON.stringify(item),
             });
             const data = await response.json();
@@ -63,7 +75,7 @@ export function useAPI() {
             return data.resultado;
         } catch (err) {
             setError(err.message);
-            return null;
+            throw err;
         } finally {
             setIsLoading(false);
         }
@@ -73,9 +85,12 @@ export function useAPI() {
     const deleteItem = async (endpoint, id) => {
         setIsLoading(true);
         try {
-            await fetch(`${BASE_URL}/${endpoint}/${id}`, {
+            const response = await fetch(`${BASE_URL}/${endpoint}/${id}`, {
                 method: 'DELETE',
+                headers: getAuthHeaders(), //Pasamos token
             });
+            const data = await response.json(); 
+            if (!data.ok) throw new Error(data.error);
             return true; 
         } catch (err) {
             setError(err.message);
@@ -85,5 +100,26 @@ export function useAPI() {
         }
     };
 
-    return { getItems, createItem, updateItem, deleteItem, isLoading, error };
+    //Login/Register
+    const postAuth = async (endpoint, body) => {
+        setIsLoading(true);
+        setError(null);
+        try {
+            const response = await fetch(`${BASE_URL}/${endpoint}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body),
+            });
+            const data = await response.json();
+            if (!data.ok) throw new Error(data.error);
+            return data;
+        } catch (err) {
+            setError(err.message);
+            throw err;
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    return { getItems, createItem, updateItem, deleteItem, postAuth, isLoading, error };
 }
